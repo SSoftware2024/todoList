@@ -1,0 +1,62 @@
+.button_animation {
+    all: unset;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 0.6em 2em;
+    border: mediumspringgreen solid 0.15em;
+    border-radius: 0.25em;
+    color: mediumspringgreen;
+    font-size: 1.5em;
+    font-weight: 600;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border 300ms, color 300ms;
+    user-select: none;
+  }
+  
+  .button_animation p {
+    z-index: 1;
+  }
+  
+  .button_animation:hover {
+    color: #212121;
+  }
+  
+  .button_animation:active {
+    border-color: teal;
+  }
+  
+  .button_animation::after, .button_animation::before {
+    content: "";
+    position: absolute;
+    width: 9em;
+    aspect-ratio: 1;
+    background: mediumspringgreen;
+    opacity: 50%;
+    border-radius: 50%;
+    transition: transform 500ms, background 300ms;
+  }
+  
+  .button_animation::before {
+    left: 0;
+    transform: translateX(-8em);
+  }
+  
+  .button_animation::after {
+    right: 0;
+    transform: translateX(8em);
+  }
+  
+  .button_animation:hover:before {
+    transform: translateX(-1em);
+  }
+  
+  .button_animation:hover:after {
+    transform: translateX(1em);
+  }
+  
+  .button_animation:active:before,
+  .button_animation:active:after {
+    background: teal;
+  }
