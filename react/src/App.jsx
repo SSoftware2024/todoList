@@ -9,9 +9,9 @@ function App() {
         <h1>Bem vindo ao ToDoList!</h1>
       </div>
       <div className={style.container_buttons}>
-        <Button name='Login'></Button>
-        <Button name='Registrar'></Button>
-        <Button name='Demo'></Button>
+        <Button name='Login' url='/auth/login'></Button>
+        <Button name='Registrar' url='/auth/register'></Button>
+        <Button name='Demo' url='/toDo/'></Button>
       </div>
       
     </div>

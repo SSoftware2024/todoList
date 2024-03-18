@@ -5,6 +5,9 @@ import Login from '@/pages/auth/Login.jsx';
 import Register from '@/pages/auth/Register.jsx';
 
 import App from './App.jsx'
+import TaskLayout from "./layout/TaskLayout.jsx";
+import Task from "./pages/Task.jsx";
+
 const router = createBrowserRouter([
     {
         path: "/",
@@ -22,6 +25,16 @@ const router = createBrowserRouter([
                 path: "register",
                 element: <Register></Register>,
             }
+        ]
+    },
+    {
+        path: "/toDo/",
+        element: <TaskLayout></TaskLayout>,
+        children: [
+            {
+                path: "/toDo/",
+                element: <Task></Task>,
+            },
         ]
     }
 
