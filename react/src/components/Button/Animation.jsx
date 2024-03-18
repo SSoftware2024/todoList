@@ -1,9 +1,9 @@
 import style from '@/css/components/button.module.css';
-function Animation() {
+function Animation({name,url='',color='primary'}) {
 
     return (
         <button className={style.button_animation}>
-            <p>Button</p>
+            <p>{name}</p>
         </button>
 
     )
