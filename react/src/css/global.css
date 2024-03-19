@@ -2,10 +2,13 @@
     margin: 0;
     padding: 0;
 }
+html body{
+    height: 100%;
+}
 body{
     font-family: 'Roboto';
+    overflow-x: hidden;
 }
 div{
-    position: relative;
     box-sizing: border-box;
 }
