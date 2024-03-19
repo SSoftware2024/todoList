@@ -52,7 +52,7 @@ export default function Item({ className, title }) {
                             </IconButton>
                         </>
                     ) : (
-                        <IconButton aria-label="delete" color='error' onClick={() => setEditable(false)}>
+                        <IconButton aria-label="delete" color='error' onClick={() => setEditable(false)} style={{ position:'relative', top: '13px' }}>
                             <CancelIcon />
                         </IconButton>
                     )

@@ -24,9 +24,14 @@ function Task() {
     function paginate(event, page){
         console.log(page);
     }
+
+    function create(event){
+        event.preventDefault();
+        console.log('create');
+    }
     return (
         <div>
-            <form>
+            <form onSubmit={create}>
                 <Grid item sm={12} sx={{ marginTop: '15px' }}>
                     <div className={style.pagination}>
                         <Stack spacing={2}>
@@ -42,12 +47,12 @@ function Task() {
                 <Grid item sm={12} sx={{ marginTop: '15px' }}>
                     <FormControl sx={{ width: '100%' }} >
                         <InputLabel htmlFor="outlined-new-item">Novo Item</InputLabel>
-                        <OutlinedInput id="outlined-new-item"
+                        <OutlinedInput id="outlined-new-item" 
                             sx={{ width: '100%' }} endAdornment={
                                 <InputAdornment position="end">
                                     <IconButton
                                         aria-label="toggle password visibility"
-                                        onClick={() => console.log('add on list')}
+                                        type='submit'
                                         edge="end"
                                     >
                                         <AddIcon />
