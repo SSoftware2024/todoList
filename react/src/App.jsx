@@ -11,7 +11,7 @@ function App() {
       <div className={style.container_buttons}>
         <Button name='Login' url='/auth/login'></Button>
         <Button name='Registrar' url='/auth/register'></Button>
-        <Button name='Demo' url='/toDo/'></Button>
+        <Button name='Demo' url='/auth/toDo/'></Button>
       </div>
       
     </div>
