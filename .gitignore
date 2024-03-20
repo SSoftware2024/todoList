@@ -5,6 +5,8 @@
 
 #php
 php/.env
+php/vendor
+php/vendor/composer
 
 # User-specific files
 *.rsuser
