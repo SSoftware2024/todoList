@@ -1,0 +1,18 @@
+{
+    "name": "tiago_alves/php",
+    "autoload": {
+        "psr-4": {
+            "ToDoList\\App\\": "app/"
+        },
+        "files": [
+            "app/helper/helper.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Tiago Alves",
+            "email": "tiagooliveiraaso2@gmail.com"
+        }
+    ],
+    "require": {}
+}
