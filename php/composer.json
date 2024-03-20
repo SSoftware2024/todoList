@@ -13,8 +13,5 @@
             "name": "Tiago Alves",
             "email": "tiagooliveiraaso2@gmail.com"
         }
-    ],
-    "require": {
-        "vlucas/phpdotenv": "^5.6"
-    }
+    ]
 }
