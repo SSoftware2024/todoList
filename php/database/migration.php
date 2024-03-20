@@ -8,7 +8,7 @@ $pdo->exec("
         name TEXT,
         email TEXT,
         password TEXT,
-        token TEXT NULL
+        code TEXT
     );
 ");
 
