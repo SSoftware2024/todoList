@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useLayoutContext } from '@context/LayoutContext.jsx';
 import CssBaseline from '@mui/material/CssBaseline';
 import style from '@/css/layouts/card.module.scss';
 import { Outlet } from "react-router-dom";
 import Card from '@mui/material/Card';
-
+import Alert from '@mui/material/Alert';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 //icons
@@ -20,9 +20,18 @@ const darkTheme = createTheme({
         }
     },
 });
-function AuthLayout() {
 
-    const { title } = useLayoutContext();
+
+function AuthLayout() {
+    const { title, alert, setAlert } = useLayoutContext();
+    useEffect(() => {
+        if (alert.open) {
+            setTimeout(() => {
+                setAlert({...alert, open: false });
+            }, 5000);
+        }
+    }, [alert]);
+    
     return (
         <>
             <ThemeProvider theme={darkTheme}>
@@ -32,9 +41,6 @@ function AuthLayout() {
                         <Card variant="outlined" sx={{ padding: '5px 10px', position: 'relative' }}>
                             <h2 style={{ textAlign: 'center' }}>{title}</h2>
                             <Outlet />
-
-
-
                             <div className={style.logout}>
                                 <Tooltip title="Sair">
                                     <IconButton onClick={() => null} color='secondary'>
@@ -43,6 +49,9 @@ function AuthLayout() {
                                 </Tooltip>
                             </div>
                         </Card>
+                        {alert.open ? (<Alert variant="outlined" severity={alert.type}>
+                            {alert.message}
+                        </Alert>) : null}
 
                     </div>
                 </div>
