@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLayoutContext } from '@context/LayoutContext.jsx';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
@@ -7,8 +7,17 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form"
 import instance from '@/js/configAxios.js';
 import { user as userEndpoint } from '@/js/endpoints.js';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
 function Register() {
-    const { setTitle,alert, showAlertFrom } = useLayoutContext();
+    const { setTitle, alert, showAlertFrom } = useLayoutContext();
+    const [open, setOpen] = useState(false);
+    const [code, setCode] = useState('');
+
+    const handleClose = () => {
+        setOpen(false);
+    };
     const {
         register,
         handleSubmit,
@@ -28,10 +37,14 @@ function Register() {
             url: userEndpoint.create,
             data: fields,
         }).then((result) => {
-            const message = result.data;
-            console.log(result.data);
+            const message = result.data?.recovery_code ? result.data.message: result.data;
+            const recovery_code = result.data?.recovery_code;
+            if(recovery_code){
+                setCode(recovery_code);
+                setOpen(true);
+            }
             showAlertFrom(message);
-            if(message.status == 'success'){
+            if (message.status == 'success') {
                 reset();
             }
         });
@@ -62,6 +75,22 @@ function Register() {
                 </Grid>
 
             </form>
+
+
+
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        <h3>Seu código de recuperação: </h3>
+                        <h2>{code}</h2>
+                    </DialogContentText>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

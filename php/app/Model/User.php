@@ -2,17 +2,29 @@
 
 namespace ToDoList\App\Model;
 
+use ToDoList\App\Trait\Code;
+
 include_once '../../constants.php';
 include_once BASE_PATH . 'vendor/autoload.php';
 final class User
 {
-    public function create(array $values): string|array|false
+    use Code;
+    public int $id = 0;
+    /**
+     * Class constructor.
+     */
+    public function __construct()
+    {
+        $this->table = 'users';
+    }
+    
+    public function create(array $values): void
     {
         global $pdo;
         $values['password'] = password_hash($values['password'], PASSWORD_BCRYPT);
         $stmt = $pdo->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
         $stmt->execute([$values['name'], $values['email'], $values['password']]);
-        return $pdo->lastInsertId();
+        $this->id = $pdo->lastInsertId();
     }
 
 
