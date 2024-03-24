@@ -4,34 +4,43 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
-import axios from 'axios';
+import instance from '@/js/configAxios.js';
+import { user as userEndpoint } from '@/js/endpoints.js';
 function Login() {
-    const { setTitle } = useLayoutContext();
+    const { setTitle, showAlertFrom } = useLayoutContext();
     useEffect(() => {
         setTitle('Login');
     }, []);
 
-    function login(event) {
+    async function login(event) {
         event.preventDefault();
-        axios.get('http://localhost/a_php/todoList/php/api/user/create.php')
-            .then(function (response) {
-                // handle success
-                console.log(response);
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
+        const axios = await instance();
+        axios({
+            method: 'POST',
+            url: userEndpoint.login,
+            data: {
+                email: event.target.email.value,
+                password: event.target.password.value,
+            },
+        }).then((result) => {
+            const user = result.data;
+            if(user?.email){
+                console.log('tela de login aq');
+            }else if(user?.message){
+                showAlertFrom(user);
+            }
+
+        });
     }
 
     return (
         <div>
             <form onSubmit={login}>
                 <Grid item sm={12} sx={{ marginBottom: '15px' }}>
-                    <TextField label="Login" variant="standard" sx={{ width: '100%' }} />
+                    <TextField label="Login" name='email' variant="standard" sx={{ width: '100%' }} />
                 </Grid>
                 <Grid item sm={12} sx={{ marginBottom: '15px' }}>
-                    <TextField type="password" label="Senha" variant="standard" autoComplete="current-password" sx={{ width: '100%' }} />
+                    <TextField type="password" name='password' label="Senha" variant="standard" autoComplete="current-password" sx={{ width: '100%' }} />
                 </Grid>
                 <Grid item sm={12} sx={{ marginBottom: '15px', display: 'flex', justifyContent: 'space-between' }}>
                     <div>

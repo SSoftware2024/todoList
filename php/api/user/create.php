@@ -13,6 +13,7 @@ header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 
+
 use ToDoList\App\Model\User;
 
 $dataJson = file_get_contents('php://input');
@@ -21,7 +22,7 @@ $user = new User();
 $data = '';
 
 if(!$user->verifyEmail($input)){
-    $user->create([
+    $login_user = $user->create([
         'name' => $input['name'],
         'email' =>  $input['email'],
         'password' =>  $input['password']
@@ -34,7 +35,7 @@ if(!$user->verifyEmail($input)){
     $user->insertCode(password_hash($code, PASSWORD_BCRYPT));
     $data = [
         'message' => getData('Cadastro concluído com sucesso', 'success', http_response_code()),
-        'recovery_code' => $code
+        'recovery_code' => $code,
     ];
 }else{
     $data = getData('Email já cadastrado', 'warning', http_response_code());

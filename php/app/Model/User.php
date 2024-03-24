@@ -18,13 +18,42 @@ final class User
         $this->table = 'users';
     }
     
-    public function create(array $values): void
+    public function create(array $values): object
     {
         global $pdo;
         $values['password'] = password_hash($values['password'], PASSWORD_BCRYPT);
         $stmt = $pdo->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
         $stmt->execute([$values['name'], $values['email'], $values['password']]);
         $this->id = $pdo->lastInsertId();
+        return $this->loadUser();
+    }
+    public function loadUser(int $id = 0): object
+    {
+        if($id > 0){
+            $this->id = $id;
+        }
+        global $pdo;
+        $sql = "SELECT * FROM users WHERE id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$this->id]);
+        $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return (object) $user;
+    }
+    public function getCheckUser(string $email, string $password):object|false
+    {
+
+        global $pdo;
+        $sql = "SELECT * FROM users WHERE email = ? limit 1;";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$email]);
+        $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $user =  (object) $user;
+
+        if (password_verify($password, $user->password)) {
+            return $user;
+        } else {
+            return false;
+        }
     }
 
 

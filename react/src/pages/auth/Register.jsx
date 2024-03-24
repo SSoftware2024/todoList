@@ -47,6 +47,7 @@ function Register() {
             if (message.status == 'success') {
                 reset();
             }
+
         });
     }
     return (
