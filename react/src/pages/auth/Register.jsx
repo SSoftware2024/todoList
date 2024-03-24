@@ -29,8 +29,9 @@ function Register() {
             data: fields,
         }).then((result) => {
             const message = result.data;
+            console.log(result.data);
             showAlertFrom(message);
-            if(message.type == 'success'){
+            if(message.status == 'success'){
                 reset();
             }
         });

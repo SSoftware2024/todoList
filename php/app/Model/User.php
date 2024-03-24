@@ -6,21 +6,18 @@ include_once '../../constants.php';
 include_once BASE_PATH . 'vendor/autoload.php';
 final class User
 {
-    public function create(array $values, $id = 0):string|array|false
+    public function create(array $values): string|array|false
     {
         global $pdo;
-        if(!$this->verifyEmail([...$values, 'id' => $id])){
-            $values['password'] = password_hash($values['password'], PASSWORD_BCRYPT);
-            $stmt = $pdo->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
-            $stmt->execute([$values['name'], $values['email'], $values['password']]);
-            return $pdo->lastInsertId();
-        }else{
-            return getData('Email já cadastrado','warning', http_response_code());
-        }
+        $values['password'] = password_hash($values['password'], PASSWORD_BCRYPT);
+        $stmt = $pdo->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
+        $stmt->execute([$values['name'], $values['email'], $values['password']]);
+        return $pdo->lastInsertId();
     }
 
 
-    private function verifyEmail($values, $operate = 'create'){
+    public function verifyEmail($values, $operate = 'create')
+    {
         global $pdo;
         $sql = "SELECT COUNT(*) as count_email FROM users WHERE email = ?";
         $execute = [$values['email']];
