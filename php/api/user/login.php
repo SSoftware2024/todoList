@@ -35,5 +35,4 @@ if($user){
 }else{
     $data = getData('Usuário ou senha inválidos', 'error', 401);
 }
-session_destroy();
 echo json_encode($data);

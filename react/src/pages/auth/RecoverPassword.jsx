@@ -41,8 +41,6 @@ export default function RecoverPassword() {
             } else {
                 showAlertFrom(result.data);
             }
-            
-
         });
     }
 
