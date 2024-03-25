@@ -1,6 +1,4 @@
 <?php
-
-use ToDoList\App\Model\User;
 include_once "../../constants.php";
 include_once BASE_PATH . 'database/connection.php';
 require BASE_PATH . 'vendor/autoload.php';
@@ -15,6 +13,9 @@ header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 
+use ToDoList\App\Model\User;
+use ToDoList\App\Helper\Auth;
+
 $dataJson = file_get_contents('php://input');
 $input = json_decode($dataJson, true);
 
@@ -28,6 +29,7 @@ if($user){
         'name' => $user->name,
         'email' => $user->email,
     ];
+    Auth::login($user);
 }else{
     $data = getData('Usuário ou senha inválidos', 'error', 401);
 }

@@ -6,11 +6,13 @@ import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
 import instance from '@/js/configAxios.js';
 import { user as userEndpoint } from '@/js/endpoints.js';
+import { useNavigate } from "react-router-dom";
 function Login() {
     const { setTitle, showAlertFrom } = useLayoutContext();
     useEffect(() => {
         setTitle('Login');
     }, []);
+    const navigate = useNavigate();
 
     async function login(event) {
         event.preventDefault();
@@ -25,7 +27,8 @@ function Login() {
         }).then((result) => {
             const user = result.data;
             if(user?.email){
-                console.log('tela de login aq');
+                localStorage.setItem('user', user);
+                navigate('/auth/toDo/');
             }else if(user?.message){
                 showAlertFrom(user);
             }
