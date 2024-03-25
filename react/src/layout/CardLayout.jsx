@@ -10,7 +10,7 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import instance from '@/js/configAxios.js';
 import { user as userEndpoint } from '@/js/endpoints.js';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useMatches } from "react-router-dom";
 //icons
 import LogoutIcon from '@mui/icons-material/Logout';
 const darkTheme = createTheme({
@@ -30,12 +30,13 @@ function AuthLayout() {
     useEffect(() => {
         if (alert.open) {
             setTimeout(() => {
-                setAlert({...alert, open: false });
+                setAlert({ ...alert, open: false });
             }, 5000);
         }
     }, [alert]);
 
     const navigate = useNavigate();
+    const match = useMatches();
 
     async function logout(event) {
         event.preventDefault();
@@ -51,7 +52,7 @@ function AuthLayout() {
 
         });
     }
-    
+
     return (
         <>
             <ThemeProvider theme={darkTheme}>
@@ -61,13 +62,15 @@ function AuthLayout() {
                         <Card variant="outlined" sx={{ padding: '5px 10px', position: 'relative' }}>
                             <h2 style={{ textAlign: 'center' }}>{title}</h2>
                             <Outlet />
-                            <div className={style.logout}>
-                                <Tooltip title="Sair">
-                                    <IconButton onClick={logout} color='secondary'>
-                                        <LogoutIcon></LogoutIcon>
-                                    </IconButton>
-                                </Tooltip>
-                            </div>
+                            {match[1].pathname == '/auth/toDo/' ? (
+                                <div className={style.logout}>
+                                    <Tooltip title="Sair">
+                                        <IconButton onClick={logout} color='secondary'>
+                                            <LogoutIcon></LogoutIcon>
+                                        </IconButton>
+                                    </Tooltip>
+                                </div>
+                            ):null}
                         </Card>
                         {alert.open ? (<Alert variant="outlined" severity={alert.type}>
                             {alert.message}
