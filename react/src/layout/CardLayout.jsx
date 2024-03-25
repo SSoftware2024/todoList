@@ -8,6 +8,9 @@ import Card from '@mui/material/Card';
 import Alert from '@mui/material/Alert';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
+import instance from '@/js/configAxios.js';
+import { user as userEndpoint } from '@/js/endpoints.js';
+import { useNavigate } from "react-router-dom";
 //icons
 import LogoutIcon from '@mui/icons-material/Logout';
 const darkTheme = createTheme({
@@ -23,7 +26,7 @@ const darkTheme = createTheme({
 
 
 function AuthLayout() {
-    const { title, alert, setAlert } = useLayoutContext();
+    const { title, alert, setAlert, showAlertFrom } = useLayoutContext();
     useEffect(() => {
         if (alert.open) {
             setTimeout(() => {
@@ -31,6 +34,23 @@ function AuthLayout() {
             }, 5000);
         }
     }, [alert]);
+
+    const navigate = useNavigate();
+
+    async function logout(event) {
+        event.preventDefault();
+        const axios = await instance();
+        axios({
+            method: 'POST',
+            url: userEndpoint.logout,
+        }).then((result) => {
+            const message = result.data;
+            localStorage.clear();
+            showAlertFrom(message);
+            navigate('/auth/login/');
+
+        });
+    }
     
     return (
         <>
@@ -43,7 +63,7 @@ function AuthLayout() {
                             <Outlet />
                             <div className={style.logout}>
                                 <Tooltip title="Sair">
-                                    <IconButton onClick={() => null} color='secondary'>
+                                    <IconButton onClick={logout} color='secondary'>
                                         <LogoutIcon></LogoutIcon>
                                     </IconButton>
                                 </Tooltip>
