@@ -17,10 +17,14 @@ import TaskItem from '@/components/Task/Item.jsx';
 import AddIcon from '@mui/icons-material/Add';
 function Task() {
     const { setTitle, showAlertFrom } = useLayoutContext();
+    const [list, setList] = useState([]);
+    let user = JSON.parse(localStorage.getItem('user'));
     useEffect(() => {
         setTitle('ToDoList: Demo');
+        read();
+
     }, []);
-    const list = ['one', 'two', 'three', 'four', 'five', 'six'];
+    const lista = ['one', 'two', 'three', 'four', 'five', 'six'];
 
     function paginate(event, page) {
         console.log(page);
@@ -29,7 +33,6 @@ function Task() {
     async function create(event) {
         event.preventDefault();
         const axios = await instance();
-        const user = JSON.parse(localStorage.getItem('user'));
         axios({
             method: 'POST',
             url: taskEnpoint.create,
@@ -38,10 +41,25 @@ function Task() {
                 task: event.target.task.value,
             },
         }).then((result) => {
-            showAlertFrom(result.data);
-            if (result.data.status =='success') {
+            // showAlertFrom(result.data);
+            read();
+            if (result.data.status == 'success') {
                 event.target.task.value = '';
             }
+        });
+    }
+    async function read() {
+        const axios = await instance();
+        axios({
+            method: 'GET',
+            url: taskEnpoint.list,
+            params: {
+                id: user.id,
+                page: 0,
+                limit: 0
+            },
+        }).then((result) => {
+            setList(result.data);
         });
     }
     return (
@@ -55,9 +73,9 @@ function Task() {
                     </div>
                 </Grid>
                 <Grid item sm={12} sx={{ marginTop: '15px' }}>
-                    {list.map((item, index) => (
-                        <TaskItem className={style.list_task} title={item} key={index}></TaskItem>
-                    ))}
+                    {list && list.length > 0 ? list.map((item, index) => (
+                        <TaskItem className={style.list_task} title={item.task} key={index}></TaskItem>
+                    )) : null}
                 </Grid>
                 <Grid item sm={12} sx={{ marginTop: '15px' }}>
                     <FormControl sx={{ width: '100%' }} >
