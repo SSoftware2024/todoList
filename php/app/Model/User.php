@@ -39,6 +39,15 @@ final class User
         $user = $stmt->fetch(\PDO::FETCH_ASSOC);
         return (object) $user;
     }
+    public function loadUserCode(string $code = ''): object
+    {
+        global $pdo;
+        $sql = "SELECT * FROM users WHERE code = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$code]);
+        $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return (object) $user;
+    }
     public function getCheckUser(string $email, string $password):object|false
     {
 
@@ -76,5 +85,17 @@ final class User
         $stmt->execute($execute);
         $user = $stmt->fetch(\PDO::FETCH_ASSOC);
         return (bool) $user['count_email'];
+    }
+
+
+    public function newPassword(string $password):bool
+    {
+        if ($this->id > 0) {
+            global $pdo;
+            $stmt = $pdo->prepare("UPDATE 'users' SET password = ? WHERE id = ?;");
+            return $stmt->execute([password_hash($password, PASSWORD_BCRYPT), $this->id]);
+        } else {
+            throw new \Exception("Id not defined");
+        }
     }
 }

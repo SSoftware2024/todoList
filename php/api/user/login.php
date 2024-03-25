@@ -2,6 +2,7 @@
 include_once "../../constants.php";
 include_once BASE_PATH . 'database/connection.php';
 require BASE_PATH . 'vendor/autoload.php';
+session_start(); 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     header('Access-Control-Allow-Origin: '.ALLOW_ORIGIN);
     header('Access-Control-Allow-Methods: *');
@@ -34,5 +35,5 @@ if($user){
 }else{
     $data = getData('Usuário ou senha inválidos', 'error', 401);
 }
-
+session_destroy();
 echo json_encode($data);

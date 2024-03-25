@@ -32,7 +32,7 @@ if(!$user->verifyEmail($input)){
         $code = $user->generate();
     } while ($user->verifyCode($code));
     
-    $user->insertCode(password_hash($code, PASSWORD_BCRYPT));
+    $user->insertCode($code);
     $data = [
         'message' => getData('Cadastro concluído com sucesso', 'success', http_response_code()),
         'recovery_code' => $code,
