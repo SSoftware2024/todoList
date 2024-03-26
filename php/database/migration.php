@@ -24,7 +24,7 @@ $pdo->exec("
 
 // Inserir dados na tabela users
 $pdo->exec("
-    INSERT INTO users (id, name, email, password) VALUES (1, 'demo', 'demo@example.com', '".password_hash('senha123', PASSWORD_DEFAULT)."');
+    INSERT INTO users (id, name, email, password) VALUES (1, 'Demo', 'demo@example.com', '".password_hash('senha123', PASSWORD_DEFAULT)."');
 ");
 
 
