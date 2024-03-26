@@ -23,7 +23,10 @@ try {
     $user = (new User())->loadUser($_GET['id']);
     $task = new ToDo();
     $task->user_id = $user->id;
-    $data = $task->list();
+    $data = [
+        'list' => $task->list($_GET['page'],$_GET['limit']),
+        'total' => $task->allPages($_GET['limit'])
+    ];
 } catch (\Exception $e) {
     $data = getData($e->getMessage(),'warning',$e->getCode());
 } catch (\Error $e) {

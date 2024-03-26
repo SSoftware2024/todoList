@@ -18,16 +18,17 @@ import AddIcon from '@mui/icons-material/Add';
 function Task() {
     const { setTitle, showAlertFrom } = useLayoutContext();
     const [list, setList] = useState([]);
+    const [totalPage, setTotal] = useState(0);
+    const [actualPage, setPage] = useState(1);
     let user = JSON.parse(localStorage.getItem('user'));
     useEffect(() => {
         setTitle('ToDoList: Demo');
-        read();
-
+        read(actualPage);
     }, []);
-    const lista = ['one', 'two', 'three', 'four', 'five', 'six'];
 
     function paginate(event, page) {
-        console.log(page);
+        read(page);
+        
     }
 
     async function create(event) {
@@ -42,24 +43,26 @@ function Task() {
             },
         }).then((result) => {
             // showAlertFrom(result.data);
-            read();
+            read(actualPage);
             if (result.data.status == 'success') {
                 event.target.task.value = '';
             }
         });
     }
-    async function read() {
+    async function read(page = 1) {
         const axios = await instance();
         axios({
             method: 'GET',
             url: taskEnpoint.list,
             params: {
                 id: user.id,
-                page: 0,
-                limit: 0
+                page: page,
+                limit: 10
             },
         }).then((result) => {
-            setList(result.data);
+            setList(result.data.list);
+            setTotal(result.data.total);
+            setPage(page);
         });
     }
     return (
@@ -68,13 +71,17 @@ function Task() {
                 <Grid item sm={12} sx={{ marginTop: '15px' }}>
                     <div className={style.pagination}>
                         <Stack spacing={2}>
-                            <Pagination count={10} color="primary" defaultPage={1} onChange={paginate} />
+                            {
+                                totalPage > 1 ? (
+                                    <Pagination count={totalPage} defaultPage={actualPage} color="primary" onChange={paginate} />
+                                ) : null
+                            }
                         </Stack>
                     </div>
                 </Grid>
                 <Grid item sm={12} sx={{ marginTop: '15px' }}>
                     {list && list.length > 0 ? list.map((item, index) => (
-                        <TaskItem className={style.list_task} item={item} key={index} onFinish={read}></TaskItem>
+                        <TaskItem className={style.list_task} item={item} key={index} onFinish={read} page={actualPage}></TaskItem>
                     )) : null}
                 </Grid>
                 <Grid item sm={12} sx={{ marginTop: '15px' }}>

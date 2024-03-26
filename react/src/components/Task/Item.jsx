@@ -11,12 +11,17 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { tasks as taskEnpoint } from '@/js/endpoints.js';
 import instance from '@/js/configAxios.js';
 import { useLayoutContext } from '@context/LayoutContext.jsx';
-export default function Item({ className, item, onFinish }) {
+export default function Item({ className, item, page, onFinish }) {
     const { setTitle, showAlertFrom } = useLayoutContext();
     const [isEditable, setEditable] = useState(false);
     const [value, setValue] = useState(item.task);
     let user = JSON.parse(localStorage.getItem('user'));
 
+
+    function editable() {
+        setEditable(true);
+        setValue(item.task);
+    }
 
     async function save() {
         const axios = await instance();
@@ -31,7 +36,7 @@ export default function Item({ className, item, onFinish }) {
         }).then((result) => {
             showAlertFrom(result.data);
             setEditable(false);
-            onFinish();
+            onFinish(page);
         });
     }
     async function exclude() {
@@ -44,7 +49,7 @@ export default function Item({ className, item, onFinish }) {
             },
         }).then((result) => {
             showAlertFrom(result.data);
-            onFinish();
+            onFinish(page);
         });
     }
 
@@ -77,7 +82,7 @@ export default function Item({ className, item, onFinish }) {
                 {
                     !isEditable ? (
                         <>
-                            <IconButton aria-label="delete" color="warning" onClick={() => setEditable(true)}>
+                            <IconButton aria-label="delete" color="warning" onClick={editable}>
                                 <EditIcon />
                             </IconButton>
                             <IconButton aria-label="delete" color="error" onClick={exclude}>
