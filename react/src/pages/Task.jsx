@@ -25,6 +25,11 @@ function Task() {
         setTitle('ToDoList: Demo');
         read(actualPage);
     }, []);
+    useEffect(() => {
+        if(totalPage == 1 && actualPage > 1){
+            read(1);
+        }
+    }, [totalPage]);
 
     function paginate(event, page) {
         read(page);
