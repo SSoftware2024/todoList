@@ -22,7 +22,7 @@ function Task() {
     const [actualPage, setPage] = useState(1);
     let user = JSON.parse(localStorage.getItem('user'));
     useEffect(() => {
-        setTitle('ToDoList: Demo');
+        setTitle('ToDoList: '+ user.name);
         read(actualPage);
     }, []);
     useEffect(() => {
