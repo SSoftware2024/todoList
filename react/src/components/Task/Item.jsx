@@ -19,7 +19,6 @@ export default function Item({ className, item, onFinish }) {
 
 
     async function save() {
-
         const axios = await instance();
         axios({
             method: 'PUT',
@@ -32,6 +31,19 @@ export default function Item({ className, item, onFinish }) {
         }).then((result) => {
             showAlertFrom(result.data);
             setEditable(false);
+            onFinish();
+        });
+    }
+    async function exclude() {
+        const axios = await instance();
+        axios({
+            method: 'DELETE',
+            url: taskEnpoint.delete,
+            params: {
+                id: item.id,
+            },
+        }).then((result) => {
+            showAlertFrom(result.data);
             onFinish();
         });
     }
@@ -68,7 +80,7 @@ export default function Item({ className, item, onFinish }) {
                             <IconButton aria-label="delete" color="warning" onClick={() => setEditable(true)}>
                                 <EditIcon />
                             </IconButton>
-                            <IconButton aria-label="delete" color="error">
+                            <IconButton aria-label="delete" color="error" onClick={exclude}>
                                 <DeleteIcon />
                             </IconButton>
                         </>

@@ -17,6 +17,12 @@ final class ToDo
         $stmt = $pdo->prepare("UPDATE todoList SET task = ? WHERE user_id = ? AND id = ?");
         return $stmt->execute([$task, $this->user_id, $this->id]);
     }
+    public function delete():bool
+    {
+        global $pdo;
+        $stmt = $pdo->prepare("DELETE FROM todoList WHERE id = ?");
+        return $stmt->execute([$this->id]);
+    }
     public function list(int $page = 0, int $limit = 10):array
     {
         global $pdo;
