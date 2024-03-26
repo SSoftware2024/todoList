@@ -74,7 +74,7 @@ function Task() {
                 </Grid>
                 <Grid item sm={12} sx={{ marginTop: '15px' }}>
                     {list && list.length > 0 ? list.map((item, index) => (
-                        <TaskItem className={style.list_task} title={item.task} key={index}></TaskItem>
+                        <TaskItem className={style.list_task} item={item} key={index} onFinish={read}></TaskItem>
                     )) : null}
                 </Grid>
                 <Grid item sm={12} sx={{ marginTop: '15px' }}>

@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 header('Access-Control-Allow-Origin: ' . ALLOW_ORIGIN);
-header('Access-Control-Allow-Methods: POST, OPTIONS');
+header('Access-Control-Allow-Methods: PUT, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 session_start();
@@ -22,9 +22,10 @@ use ToDoList\App\Model\ToDo;
 use ToDoList\App\Model\User;
 
 try {
-    $user = (new User())->loadUser($input['id']);
+    $user = (new User())->loadUser($input['user_id']);
     $task = new ToDo();
     $task->user_id = $user->id;
+    $task->id = $input['id'];
     $task->update($input['task']);
     $data = getData('Atualização realizada com sucesso','success',http_response_code());
 } catch (\Exception $e) {

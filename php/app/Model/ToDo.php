@@ -4,17 +4,18 @@ namespace ToDoList\App\Model;
 final class ToDo
 {
     public int $user_id = 0;
+    public int $id = 0;
     public function create(string $task):bool
     {
         global $pdo;
         $stmt = $pdo->prepare("INSERT INTO todoList (user_id, task) VALUES (?, ?)");
         return $stmt->execute([$this->user_id, $task]);
     }
-    public function update(array $task):bool
+    public function update(string $task):bool
     {
         global $pdo;
-        $stmt = $pdo->prepare("UPDATE todoList SET task = ? WHERE user_id = ?");
-        return $stmt->execute([$task, $this->user_id]);
+        $stmt = $pdo->prepare("UPDATE todoList SET task = ? WHERE user_id = ? AND id = ?");
+        return $stmt->execute([$task, $this->user_id, $this->id]);
     }
     public function list(int $page = 0, int $limit = 10):array
     {

@@ -22,11 +22,13 @@ use ToDoList\App\Model\ToDo;
 use ToDoList\App\Model\User;
 
 try {
-    $user = (new User())->loadUser($input['id']);
-    $task = new ToDo();
-    $task->user_id = $user->id;
-    $task->create($input['task']);
-    $data = getData('Cadastro realizado com sucesso','success',http_response_code());
+    if(!empty($input['task'])){
+        $user = (new User())->loadUser($input['id']);
+        $task = new ToDo();
+        $task->user_id = $user->id;
+        $task->create($input['task']);
+        $data = getData('Cadastro realizado com sucesso','success',http_response_code());
+    }
 } catch (\Exception $e) {
     $data = getData($e->getMessage(),'warning',$e->getCode());
 } catch (\Error $e) {
