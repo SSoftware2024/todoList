@@ -5,7 +5,7 @@
             "ToDoList\\App\\": "app/"
         },
         "files": [
-            "app/helper/helper.php"
+            "app/Helper/helper.php"
         ]
     },
     "authors": [
