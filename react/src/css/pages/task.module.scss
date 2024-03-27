@@ -1,0 +1,16 @@
+.list_task{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: .3px gray dotted;
+    h3{
+        position: relative;
+        top: 9px;
+    }
+}
+.pagination{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
