@@ -43,6 +43,4 @@ try {
 } catch (\Error $e) {
     $data = getData($e->getMessage(), 'error', $e->getCode());
 }
-
-session_destroy();
 echo json_encode($data);

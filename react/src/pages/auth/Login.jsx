@@ -27,7 +27,7 @@ function Login() {
         }).then((result) => {
             const user = result.data;
             if(user?.email){
-                localStorage.setItem('user', user);
+                localStorage.setItem('user', JSON.stringify(user));
                 navigate('/auth/toDo/');
             }else if(user?.message){
                 showAlertFrom(user);

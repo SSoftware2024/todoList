@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL = 'http://localhost/a_php/todoList/php/api/';
+const API_URL = '<your_domain>';
 const getAxios = async () => {
     try {
         const instance = axios.create({
